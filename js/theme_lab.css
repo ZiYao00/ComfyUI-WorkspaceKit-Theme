@@ -1,0 +1,739 @@
+/*
+ * Theme Lab styles. Scoped strictly under .wkt-theme-lab-host so plugin
+ * selectors never touch WorkspaceKit internals. Colors and surfaces come from
+ * the shared --workspacekit-ui-* tokens so the panel tracks dark / light /
+ * frosted WorkspaceKit themes without per-theme overrides.
+ */
+
+.wkt-theme-lab-host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden; /* each child slot owns its own overflow */
+  background: var(--workspacekit-ui-surface, transparent);
+  color: var(--workspacekit-ui-text, inherit);
+  font: 500 13px/1.4 var(--font-family, system-ui, sans-serif);
+}
+
+/* ----------------------------------------------------------------------------
+ * Header
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 28px;
+  padding: 6px 0;
+}
+.wkt-theme-lab-host .wkt-header-title {
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------------------
+ * Toolbar (search)
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  position: sticky;
+  top: 0;
+  background: var(--workspacekit-ui-surface, transparent);
+  z-index: 1;
+}
+.wkt-theme-lab-host .wkt-toolbar-row {
+  width: 100%;
+}
+.wkt-theme-lab-host .wkt-toolbar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.wkt-theme-lab-host .wkt-toolbar-metadata {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 6px;
+  min-width: 0;
+}
+.wkt-theme-lab-host .wkt-toolbar-metadata-input {
+  min-width: 0;
+}
+.wkt-theme-lab-host .wkt-search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ----------------------------------------------------------------------------
+ * Controls (theme actions + edit history)
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 0 8px;
+  flex: 0 0 auto;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--workspacekit-ui-border, #000) 18%, transparent);
+}
+.wkt-theme-lab-host .wkt-controls-row:not(.workspacekit-ui-control-row) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wkt-theme-lab-host .wkt-controls-trailing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.wkt-theme-lab-host .wkt-theme-source-row {
+  display: grid;
+  /* 16ch is about eight Chinese glyphs. It may shrink first on narrow
+     sidebars, while the refresh/import/capture actions remain one line. */
+  grid-template-columns: minmax(0, 16ch) var(--workspacekit-ui-control-height, 30px) auto auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+}
+.wkt-theme-lab-host .wkt-theme-select {
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+.wkt-theme-lab-host .wkt-theme-source-action {
+  white-space: nowrap;
+}
+.wkt-theme-lab-host .wkt-popover-anchor {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+.wkt-theme-lab-host .wkt-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ----------------------------------------------------------------------------
+ * Buttons
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 30px;
+  padding: 4px 10px;
+  border: 1px solid var(--workspacekit-ui-border, #555);
+  border-radius: var(--workspacekit-ui-radius-sm, 6px);
+  background: var(--workspacekit-ui-control, rgba(255, 255, 255, 0.05));
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.wkt-theme-lab-host .wkt-button:hover {
+  background: var(--workspacekit-ui-hover, rgba(255, 255, 255, 0.1));
+}
+.wkt-theme-lab-host .wkt-button-primary {
+  border-color: color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 45%, transparent);
+}
+.wkt-theme-lab-host .wkt-button-danger,
+.wkt-theme-dialog .wkt-button-danger {
+  border-color: color-mix(in srgb, #d84a4a 56%, var(--workspacekit-ui-border, #555));
+  color: color-mix(in srgb, #ff8a8a 82%, var(--workspacekit-ui-text, inherit));
+}
+.wkt-theme-lab-host .wkt-button-small {
+  min-height: 22px;
+  padding: 1px 6px;
+  font-size: 11px;
+}
+.wkt-theme-lab-host .wkt-button-icon {
+  position: relative;
+  min-width: 28px;
+  min-height: 28px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: var(--workspacekit-ui-radius-sm, 6px);
+}
+.wkt-theme-lab-host .wkt-button-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  color: currentColor;
+}
+.wkt-theme-lab-host .wkt-theme-icon-button .wkt-theme-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+}
+.wkt-theme-lab-host .wkt-theme-icon-button .wkt-theme-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.wkt-theme-lab-host .wkt-more-toggle.is-open {
+  background: var(--workspacekit-ui-hover, rgba(255, 255, 255, 0.1));
+  border-color: var(--workspacekit-ui-accent, #0a84ff);
+}
+
+/* ----------------------------------------------------------------------------
+ * Inputs (base)
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-input {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--workspacekit-ui-control-height, 30px);
+  padding: 4px 8px;
+  border: 1px solid var(--workspacekit-ui-border, #555);
+  border-radius: var(--workspacekit-ui-radius-sm, 6px);
+  background: var(--workspacekit-ui-control, rgba(0, 0, 0, 0.15));
+  box-shadow: var(--workspacekit-ui-control-shadow, none);
+  color: inherit;
+  font: inherit;
+}
+.wkt-theme-lab-host .wkt-input:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 65%, transparent);
+  outline-offset: 1px;
+}
+.wkt-theme-lab-host .wkt-input.is-invalid {
+  border-color: color-mix(in srgb, #ff4d4f 60%, transparent);
+}
+
+/* ----------------------------------------------------------------------------
+ * Content area + empty state
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px 0 16px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.wkt-theme-lab-host .wkt-empty {
+  padding: 24px 12px;
+  text-align: center;
+  border: 1px dashed var(--workspacekit-ui-border, #555);
+  border-radius: var(--workspacekit-ui-radius, 8px);
+  color: var(--workspacekit-ui-muted, #9aa);
+}
+.wkt-theme-lab-host .wkt-empty p { margin: 6px 0 0; font-size: 12px; }
+.wkt-theme-lab-host .wkt-empty-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.wkt-theme-lab-host .wkt-empty-action {
+  min-width: 126px;
+}
+.wkt-theme-lab-host .wkt-empty-action-primary {
+  color: var(--workspacekit-ui-text, inherit);
+  border-color: color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 52%, var(--workspacekit-ui-border, #555));
+  background: color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 16%, var(--workspacekit-ui-control, transparent));
+}
+.wkt-theme-lab-host .wkt-empty-action-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 24%, var(--workspacekit-ui-control, transparent));
+}
+.wkt-theme-lab-host .wkt-content-search {
+  flex: 0 0 auto;
+}
+
+/* ----------------------------------------------------------------------------
+ * Popover (More actions menu)
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 10;
+  min-width: 200px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--workspacekit-ui-surface, #fff);
+  color: var(--workspacekit-ui-text, inherit);
+  border: 1px solid var(--workspacekit-ui-border, #ccc);
+  border-radius: var(--workspacekit-ui-radius, 8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  font: inherit;
+}
+.wkt-theme-lab-host .wkt-popover[hidden] { display: none; }
+.wkt-theme-lab-host .wkt-popover-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 0;
+}
+.wkt-theme-lab-host .wkt-popover-group + .wkt-popover-group {
+  border-top: 1px solid
+    color-mix(in srgb, var(--workspacekit-ui-border, #ccc) 32%, transparent);
+  margin-top: 2px;
+}
+.wkt-theme-lab-host .wkt-popover-group-title {
+  padding: 4px 8px 2px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--workspacekit-ui-muted, #9aa);
+}
+.wkt-theme-lab-host .wkt-popover-item {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: var(--workspacekit-ui-radius-sm, 6px);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.wkt-theme-lab-host .wkt-popover-item:hover {
+  background: var(--workspacekit-ui-hover, rgba(0, 0, 0, 0.06));
+}
+.wkt-theme-lab-host .wkt-popover-item svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+.wkt-theme-lab-host .wkt-popover-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: var(--workspacekit-ui-radius-sm, 6px);
+  cursor: pointer;
+  font: inherit;
+}
+.wkt-theme-lab-host .wkt-popover-toggle input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--workspacekit-ui-accent, #0a84ff);
+}
+
+/* --------------------------------------------------------------------------
+ * Save / exit confirmation. The dialog is appended to document.body so it
+ * cannot be clipped by either standalone or merged sidebar containers.
+ * It still consumes the same WorkspaceKit UI tokens as the panel itself.
+ * -------------------------------------------------------------------------- */
+.wkt-theme-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.34);
+}
+.wkt-theme-dialog {
+  width: min(390px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid var(--workspacekit-ui-border, #555);
+  border-radius: var(--workspacekit-ui-radius, 8px);
+  background: var(--workspacekit-ui-surface, #252525);
+  color: var(--workspacekit-ui-text, #fff);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
+}
+.wkt-theme-dialog-title { margin: 0; font-size: 15px; line-height: 1.35; }
+.wkt-theme-dialog-message { margin: 9px 0 16px; color: var(--workspacekit-ui-muted, #aaa); line-height: 1.5; }
+.wkt-theme-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+.wkt-theme-lab-host .wkt-reference {
+  padding: 6px 0;
+  flex: 0 0 auto;
+}
+.wkt-theme-lab-host .wkt-reference[open] {
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--workspacekit-ui-border, #000) 14%, transparent);
+}
+.wkt-theme-lab-host .wkt-reference-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.wkt-theme-lab-host .wkt-reference-summary::-webkit-details-marker { display: none; }
+.wkt-theme-lab-host .wkt-reference-summary::before {
+  content: "›";
+  color: var(--workspacekit-ui-accent, #0a84ff);
+  font-size: 16px;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform 120ms ease;
+}
+.wkt-theme-lab-host .wkt-reference[open] > .wkt-reference-summary::before { transform: rotate(90deg); }
+.wkt-theme-lab-host .wkt-reference-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+}
+.wkt-theme-lab-host .wkt-reference-dropzone {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  min-height: 76px;
+  padding: 12px;
+  border: 1px dashed color-mix(in srgb, var(--workspacekit-ui-border, #555) 62%, transparent);
+  border-radius: var(--workspacekit-ui-radius, 8px);
+  background: color-mix(in srgb, var(--workspacekit-ui-control, transparent) 52%, transparent);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.wkt-theme-lab-host .wkt-reference-dropzone:hover,
+.wkt-theme-lab-host .wkt-reference-dropzone:focus-visible {
+  border-color: color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 70%, transparent);
+  background: color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 10%, var(--workspacekit-ui-control, transparent));
+  outline: none;
+}
+.wkt-theme-lab-host .wkt-reference-dropzone > span {
+  color: var(--workspacekit-ui-muted, #9aa);
+  font-size: 12px;
+}
+.wkt-theme-lab-host .wkt-palette-slot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-content: flex-start;
+  padding: 4px 0;
+}
+.wkt-theme-lab-host .wkt-palette-slot:empty {
+  display: none;
+}
+.wkt-theme-lab-host .wkt-palette-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid
+    color-mix(in srgb, var(--workspacekit-ui-border, #000) 24%, transparent);
+  cursor: pointer;
+  padding: 0;
+  background: var(--swatch, transparent);
+  transition: transform 120ms ease;
+}
+.wkt-theme-lab-host .wkt-palette-swatch:hover {
+  transform: scale(1.12);
+}
+.wkt-theme-lab-host .wkt-section-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.wkt-theme-lab-host .wkt-section-summary::-webkit-details-marker { display: none; }
+.wkt-theme-lab-host .wkt-section-title {
+  font-size: 12px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.wkt-theme-lab-host .wkt-section-count {
+  font-size: 11px;
+  color: var(--workspacekit-ui-muted, #9aa);
+  font-variant-numeric: tabular-nums;
+}
+.wkt-theme-lab-host .wkt-reference-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.wkt-theme-lab-host .wkt-reference-sampling {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.wkt-theme-lab-host .wkt-sample-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--workspacekit-ui-muted, #9aa);
+}
+.wkt-theme-lab-host .wkt-sample-size .wkt-input {
+  width: auto;
+  min-width: 60px;
+}
+.wkt-theme-lab-host .wkt-active-target {
+  font-size: 12px;
+  color: var(--workspacekit-ui-muted, #9aa);
+}
+.wkt-theme-lab-host .wkt-reference-canvas-wrap {
+  position: relative;
+  flex: 0 1 170px;
+  min-width: 96px;
+  min-height: 72px;
+  border: 1px dashed color-mix(in srgb, var(--workspacekit-ui-border, #555) 70%, transparent);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.wkt-theme-lab-host .wkt-reference-visuals {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.wkt-theme-lab-host .wkt-reference-canvas-wrap[hidden],
+.wkt-theme-lab-host .wkt-reference-sampling[hidden],
+.wkt-theme-lab-host .wkt-reference-visuals[hidden] { display: none; }
+.wkt-theme-lab-host .wkt-reference-canvas:not([hidden]) {
+  display: block;
+  width: 100%;
+  max-height: 132px;
+  object-fit: contain;
+  cursor: crosshair;
+}
+
+/* ----------------------------------------------------------------------------
+ * Group (collapsible, with divider)
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-group {
+  border-top: 1px solid
+    color-mix(in srgb, var(--workspacekit-ui-border, #555) 32%, transparent);
+  padding-top: 8px;
+}
+.wkt-theme-lab-host .wkt-group:first-child { border-top: 0; padding-top: 0; }
+.wkt-theme-lab-host .wkt-group-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 2px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.wkt-theme-lab-host .wkt-group-summary::-webkit-details-marker { display: none; }
+.wkt-theme-lab-host .wkt-group-summary::before {
+  content: "▸";
+  display: inline-block;
+  width: 12px;
+  color: var(--workspacekit-ui-muted, #9aa);
+  transition: transform 120ms ease;
+}
+.wkt-theme-lab-host .wkt-group[open] > .wkt-group-summary::before {
+  transform: rotate(90deg);
+}
+.wkt-theme-lab-host .wkt-group-title {
+  font-size: 12px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.wkt-theme-lab-host .wkt-group-count {
+  font-size: 11px;
+  color: var(--workspacekit-ui-muted, #9aa);
+  font-variant-numeric: tabular-nums;
+}
+.wkt-theme-lab-host .wkt-group-description {
+  margin: 4px 2px 8px;
+  font-size: 11px;
+  color: var(--workspacekit-ui-muted, #9aa);
+  line-height: 1.4;
+}
+
+/* ----------------------------------------------------------------------------
+ * Field grid: auto-fill cards that reflow with sidebar width
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--wkt-field-min, 180px), 1fr));
+  gap: 6px;
+  align-items: start;
+}
+.wkt-theme-lab-host .wkt-field-full {
+  display: block;
+  margin-top: 6px;
+}
+.wkt-theme-lab-host .wkt-field-full .wkt-field {
+  max-width: none;
+}
+
+/* ----------------------------------------------------------------------------
+ * Field card (color / number / select / text)
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 7px 8px;
+  border: 1px solid var(--workspacekit-ui-border, #555);
+  border-radius: var(--workspacekit-ui-radius, 8px);
+  background: var(--workspacekit-ui-control, rgba(255, 255, 255, 0.04));
+  box-shadow: var(--workspacekit-ui-control-shadow, none);
+  min-width: 0;
+}
+.wkt-theme-lab-host .wkt-field.is-active-target {
+  border-color: color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 55%, transparent);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--workspacekit-ui-accent, #0a84ff) 35%, transparent);
+}
+.wkt-theme-lab-host .wkt-field-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+}
+.wkt-theme-lab-host .wkt-field-label-wrap {
+  display: block;
+  min-width: 0;
+}
+.wkt-theme-lab-host .wkt-field-label {
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Key and description are exposed through field title + aria-description.
+ * Keeping them in DOM makes inspection/debugging possible without consuming
+ * two lines on every card. */
+.wkt-theme-lab-host .wkt-field-key,
+.wkt-theme-lab-host .wkt-field-description { display: none; }
+
+/* ----------------------------------------------------------------------------
+ * Color control: swatch + hex + alpha slider
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-color-control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+.wkt-theme-lab-host .wkt-color-picker {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 1px solid var(--workspacekit-ui-border, #555);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+.wkt-theme-lab-host .wkt-color-text {
+  flex: 0 1 94px;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+.wkt-theme-lab-host .wkt-alpha {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px;
+  flex: 1 1 96px;
+  font-size: 11px;
+  color: var(--workspacekit-ui-muted, #9aa);
+}
+.wkt-theme-lab-host .wkt-alpha-value { font-variant-numeric: tabular-nums; min-width: 3ch; text-align: right; }
+.wkt-theme-lab-host .wkt-alpha input[type="range"] {
+  width: 100%;
+}
+
+/* ----------------------------------------------------------------------------
+ * Number / select / text controls
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-number-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 68px;
+  gap: 5px;
+  align-items: center;
+}
+.wkt-theme-lab-host .wkt-number-control input[type="range"] {
+  width: 100%;
+}
+.wkt-theme-lab-host .wkt-number-input { text-align: right; }
+.wkt-theme-lab-host .wkt-textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  resize: vertical;
+}
+
+/* ----------------------------------------------------------------------------
+ * Narrow sidebar fallback (only kicks in when sidebar itself is unusually
+ * narrow; the auto-fill grid handles column counts; the rules below keep
+ * controls from wrapping awkwardly at the very lowest widths).
+ * -------------------------------------------------------------------------- */
+
+@media (max-width: 320px) {
+  .wkt-theme-lab-host .wkt-color-control { flex-wrap: wrap; }
+  .wkt-theme-lab-host .wkt-alpha { flex-basis: 100%; }
+  .wkt-theme-lab-host .wkt-number-control { grid-template-columns: 1fr; }
+}
+
+/* ----------------------------------------------------------------------------
+ * Status (live region, used by both header and standalone)
+ * -------------------------------------------------------------------------- */
+
+.wkt-theme-lab-host .wkt-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.wkt-theme-lab-host .wkt-status-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--workspacekit-ui-muted, #9aa);
+}
+.wkt-theme-lab-host .wkt-status-dot[data-level="success"] { background: #3ecf8e; }
+.wkt-theme-lab-host .wkt-status-dot[data-level="info"] { background: var(--workspacekit-ui-accent, #0a84ff); }
+.wkt-theme-lab-host .wkt-status-dot[data-level="warn"] { background: #f5a623; }
+.wkt-theme-lab-host .wkt-status-dot[data-level="error"] { background: #ff4d4f; }
+.wkt-theme-lab-host .wkt-status-text {
+  font-size: 12px;
+  color: var(--workspacekit-ui-muted, #9aa);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

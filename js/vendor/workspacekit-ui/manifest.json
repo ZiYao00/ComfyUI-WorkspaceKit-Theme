@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "uiVersion": "1.4.0",
+  "sourceCommit": "5b738354dd03930927cd4c250886c1f913a3318a",
+  "files": {
+    "blueprint.js": "b34cab59c44485792a29877cce29b54c85677e42464f526e29446bc62d1c498e",
+    "compatibility.js": "6ab5e5c64fd131eaf6c8b5050df51dd952ca85b8986655a8d2ffc82b42e94795",
+    "primitives.js": "3ec166ba3e0a44c93c1f0e27df88775ecba87cdcad010aa8d3cb212e357d8772",
+    "styles.js": "904a0baf707b0621ef8cb13195681bde969ba94462cb4957794295540acb9ba0",
+    "template.js": "c917d2dc70ae1de80ff730f8b5f18c97c7088b479fa5acd4c8278f6a8caf5ea9",
+    "version.js": "d0f61a5f521b42de9c79b8cac8325df5d8e96be6bb091c30445b350badec9fed"
+  }
+}

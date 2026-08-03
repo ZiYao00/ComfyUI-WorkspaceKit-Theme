@@ -1,0 +1,29 @@
+[project]
+name = "workspacekit-theme-lab"
+version = "0.1.0"
+description = "A live ComfyUI theme editor with real-canvas preview and image color sampling."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [
+  { name = "ZiYao00" }
+]
+dependencies = [
+  "comfyui-frontend-package>=1.20.5"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: JavaScript",
+  "Programming Language :: Python :: 3"
+]
+
+[project.urls]
+Repository = "https://github.com/ZiYao00/ComfyUI-WorkspaceKit-Theme"
+Documentation = "https://github.com/ZiYao00/ComfyUI-WorkspaceKit-Theme/tree/main/docs"
+"Bug Tracker" = "https://github.com/ZiYao00/ComfyUI-WorkspaceKit-Theme/issues"
+
+[tool.comfy]
+PublisherId = "ZiYao00"
+DisplayName = "WorkspaceKit Theme Lab"

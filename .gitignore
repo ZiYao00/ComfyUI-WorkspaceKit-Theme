@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.codex-backups/
+.theme-backups/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+node_modules/
+dist/
+*.zip

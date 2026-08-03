@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "groups": [
+    {
+      "id": "comfyui-default",
+      "label": {
+        "en": "ComfyUI defaults",
+        "zh": "ComfyUI 默认"
+      },
+      "items": [
+        {
+          "id": "comfyui-dark",
+          "name": "Dark (Default)",
+          "file": "themes/comfyui-default/dark.json"
+        },
+        {
+          "id": "comfyui-light",
+          "name": "Light (Default)",
+          "file": "themes/comfyui-default/light.json"
+        }
+      ]
+    },
+    {
+      "id": "wk",
+      "label": {
+        "en": "WK themes",
+        "zh": "WK 主题"
+      },
+      "items": [
+        {
+          "id": "wk-dark-zy",
+          "name": "WK Dark ZY",
+          "file": "themes/wk/wk-dark-zy.json"
+        }
+      ]
+    }
+  ]
+}
