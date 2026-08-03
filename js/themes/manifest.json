@@ -31,6 +31,18 @@
           "id": "wk-dark-zy",
           "name": "WK Dark ZY",
           "file": "themes/wk/wk-dark-zy.json"
+        },
+        {
+          "id": "wk-catppuccin-macchiato",
+          "name": "WK · Catppuccin Macchiato",
+          "file": "themes/wk/zy-catppuccin-macchiato.json",
+          "preview": "themes/wk/previews/zy-catppuccin-macchiato.png"
+        },
+        {
+          "id": "wk-catppuccin-mocha",
+          "name": "WK · Catppuccin Mocha",
+          "file": "themes/wk/zy-catppuccin-mocha.json",
+          "preview": "themes/wk/previews/zy-catppuccin-mocha.png"
         }
       ]
     }

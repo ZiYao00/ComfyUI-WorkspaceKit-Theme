@@ -30,6 +30,7 @@
 - 1×1、3×3、5×5 平均取色。
 - 在支持的浏览器环境中使用 `EyeDropper` 屏幕吸色。
 - 导出修改后的完整主题 JSON。
+- 内置 WK Dark ZY、WK Catppuccin Macchiato 与 WK Catppuccin Mocha 主题；主题清单保留对应预览图路径，供后续主题库界面使用。
 
 ## 安装
 

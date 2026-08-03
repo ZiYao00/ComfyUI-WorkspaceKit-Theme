@@ -6,6 +6,7 @@ All notable changes will be documented in this file.
 
 ### Changed
 
+- Added bundled WK Catppuccin Macchiato and Mocha themes, with their preview assets registered in the theme manifest.
 - Added a local, MIT-licensed Color Thief 3.3.0 browser build for reference-image suggested palettes; no CDN or runtime npm dependency is used.
 - Reference images now have a clickable/dropable empty state, a compact thumbnail, re-import/remove controls, and eight suggested colors that apply only to the active color field.
 - Reorganized Theme documentation around a current redesign plan, test checklist, publishing readiness, and third-party notices.
