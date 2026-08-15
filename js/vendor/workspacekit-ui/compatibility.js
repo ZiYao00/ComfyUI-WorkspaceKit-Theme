@@ -13,6 +13,7 @@ export const PANEL_UI_TEMPLATE_CAPABILITIES = Object.freeze([
   "disclosure-section",
   "compact-action-bar",
   "dropzone-surface",
+  "icon-kit",
 ]);
 
 const PANEL_UI_TEMPLATE_CAPABILITY_PRIMITIVES = Object.freeze({
@@ -26,6 +27,7 @@ const PANEL_UI_TEMPLATE_CAPABILITY_PRIMITIVES = Object.freeze({
   "disclosure-section": "createDisclosureSection",
   "compact-action-bar": "createCompactActionBar",
   "dropzone-surface": "createDropzoneSurface",
+  "icon-kit": "createIcon",
 });
 
 function normalizedCapabilities(value) {

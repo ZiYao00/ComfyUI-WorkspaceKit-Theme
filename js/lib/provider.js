@@ -13,8 +13,9 @@ import { labelsFor, resolveLocale } from "./i18n.js";
 // shows `icon` + `tabLabel`. The label/tooltip text follows the user's
 // ComfyUI locale (see [[comfyui-locale-api]]).
 export const PROVIDER_ID = "workspacekit.theme";
-export const PROVIDER_TITLE = "Theme Lab";
-export const PROVIDER_ICON = "🎨";
+export const PROVIDER_TITLE = "WK Theme";
+export const PROVIDER_ICON = "";
+export const PROVIDER_ICON_KEY = "theme";
 export const PROVIDER_API_VERSION = 1;
 
 export function createThemeProvider({ app, onHostClaimed }) {
@@ -22,8 +23,10 @@ export function createThemeProvider({ app, onHostClaimed }) {
   return Object.freeze({
     apiVersion: PROVIDER_API_VERSION,
     id: PROVIDER_ID,
-    title: labels.headerTitle,
+    title: labels.providerTitle,
     icon: PROVIDER_ICON,
+    iconKey: PROVIDER_ICON_KEY,
+    getTitle: () => labels.providerTitle,
     tabLabel: labels.tabLabel,
     tabTooltip: labels.tabTooltip,
     onHostClaimed,

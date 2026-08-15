@@ -10,7 +10,7 @@ import { formatCssColor, parseCssColor, rgbToHex, sampleCanvasColor, withAlpha }
 import { extractReferencePalette } from "./reference_palette.js";
 import { cloneTheme, downloadTheme, getThemeValue, setThemeValue, validateThemeDocument } from "./theme_document.js";
 import { labelsFor, resolveLocale, t } from "./i18n.js";
-import { THEME_ICONS, iconButton } from "./theme_icons.js";
+import { iconButton, themeIcon } from "./theme_icons.js";
 
 const MAX_HISTORY = 80;
 const ROOT_CLASS = "wkt-theme-lab";
@@ -261,7 +261,7 @@ export class ThemeLabPanel {
     // Legacy: hand-rolled header row.
     const header = createElement("div", "wkt-header workspacekit-ui-root");
     header.append(
-      createElement("span", "wkt-header-title", `🎨 ${headerTitle}`),
+      createElement("span", "wkt-header-title", headerTitle),
       this.renderStatus(),
     );
     this.refs.statusText = header.querySelector('[data-role="status-text"]');
@@ -276,11 +276,11 @@ export class ThemeLabPanel {
     const locale = resolveLocale({ app: this.app });
     const labels = labelsFor(locale);
     const shell = createElement("div", "wkt-standalone-shell");
-    const title = createElement("span", "wkt-standalone-title", `🎨 ${labels.headerTitle}`);
+    const title = createElement("span", "wkt-standalone-title", labels.headerTitle);
     const settings = document.createElement("button");
     settings.type = "button";
     settings.className = "wkt-button wkt-button-icon wkt-standalone-settings";
-    settings.innerHTML = THEME_ICONS.settings;
+    settings.innerHTML = themeIcon("theme.settings.open");
     settings.title = labels.actionSettings;
     settings.setAttribute("aria-label", labels.actionSettings);
     settings.addEventListener("click", () => {
@@ -305,9 +305,9 @@ export class ThemeLabPanel {
     // from the source picker below preserves the WK five-zone anatomy and
     // keeps "choose a file" from competing with search/history controls.
     const actions = [
-      this.createSharedIconButton("undo", labels.actionUndo, () => this.undo()),
-      this.createSharedIconButton("redo", labels.actionRedo, () => this.redo()),
-      this.createSharedIconButton("export", labels.actionExport, () => this.exportTheme()),
+      this.createSharedIconButton("theme.history.undo", labels.actionUndo, () => this.undo()),
+      this.createSharedIconButton("theme.history.redo", labels.actionRedo, () => this.redo()),
+      this.createSharedIconButton("theme.file.export", labels.actionExport, () => this.exportTheme()),
       this.renderMoreMenu(labels),
     ];
     if (this.ui?.supports?.(1) && typeof this.ui.createControlRow === "function") {
@@ -393,7 +393,7 @@ export class ThemeLabPanel {
     this.refs.themeSelect = themeSelect;
     this.populateThemeSelect(labels);
 
-    const refresh = this.createSharedIconButton("reset", labels.actionRefresh, () => {
+    const refresh = this.createSharedIconButton("theme.file.refresh", labels.actionRefresh, () => {
       void this.refreshBundledThemes();
     });
     const sourceImport = this.createSharedButton(labels.actionImport, () => this.requestThemeImport(), "wkt-theme-source-action");
@@ -512,7 +512,7 @@ export class ThemeLabPanel {
   createSharedIconButton(name, label, handler, { primary = false } = {}) {
     if (this.ui?.supports?.(1) && typeof this.ui.createIconButton === "function") {
       const glyph = createElement("span", "wkt-theme-icon");
-      glyph.innerHTML = THEME_ICONS[name] ?? "";
+      glyph.innerHTML = themeIcon(name);
       const button = this.ui.createIconButton({ label, content: glyph, onPress: handler });
       button.classList.add("wkt-theme-icon-button");
       if (primary) button.classList.add("wkt-button-primary");
@@ -534,7 +534,7 @@ export class ThemeLabPanel {
   // a sibling of its toggle, never a child of a <button>; nested interactive
   // content was the cause of the old unreliable opening behavior.
   renderMoreMenu(labels) {
-    const toggle = this.createSharedIconButton("more", labels.actionMore, () => {});
+    const toggle = this.createSharedIconButton("theme.actions.more", labels.actionMore, () => {});
     toggle.classList.add("wkt-more-toggle");
     toggle.setAttribute("aria-haspopup", "menu");
     toggle.setAttribute("aria-expanded", "false");
@@ -556,30 +556,30 @@ export class ThemeLabPanel {
     // Preview is always live. Saving therefore belongs in a separate file
     // group rather than being confused with an "apply" action.
     const fileGroup = buildGroup(labels.groupFile, [
-      this.popoverItem("import", labels.actionImport, () => { this.requestThemeImport(); this.closePopover(popover, toggle); }, labels.actionImport),
-      this.popoverItem("capture", labels.actionCapture, () => { this.captureCurrentTheme(); this.closePopover(popover, toggle); }, labels.actionCapture),
-      this.popoverItem("export", labels.actionExport, () => { this.exportTheme(); this.closePopover(popover, toggle); }, labels.actionExport),
-      this.popoverItem("save", labels.actionSave, () => { void this.saveTheme(); this.closePopover(popover, toggle); }, labels.actionSave),
-      this.popoverItem("save", labels.actionSaveCopy, () => { void this.saveTheme({ saveCopy: true }); this.closePopover(popover, toggle); }, labels.actionSaveCopy),
+      this.popoverItem("theme.file.import", labels.actionImport, () => { this.requestThemeImport(); this.closePopover(popover, toggle); }, labels.actionImport),
+      this.popoverItem("theme.file.captureCurrent", labels.actionCapture, () => { this.captureCurrentTheme(); this.closePopover(popover, toggle); }, labels.actionCapture),
+      this.popoverItem("theme.file.export", labels.actionExport, () => { this.exportTheme(); this.closePopover(popover, toggle); }, labels.actionExport),
+      this.popoverItem("theme.file.save", labels.actionSave, () => { void this.saveTheme(); this.closePopover(popover, toggle); }, labels.actionSave),
+      this.popoverItem("theme.file.saveCopy", labels.actionSaveCopy, () => { void this.saveTheme({ saveCopy: true }); this.closePopover(popover, toggle); }, labels.actionSaveCopy),
     ]);
     popover.append(fileGroup);
 
     // History group: undo / redo.
     const historyGroup = buildGroup(labels.groupHistory, [
-      this.popoverItem("undo", labels.actionUndo, () => { this.undo(); this.closePopover(popover, toggle); }, labels.actionUndo),
-      this.popoverItem("redo", labels.actionRedo, () => { this.redo(); this.closePopover(popover, toggle); }, labels.actionRedo),
+      this.popoverItem("theme.history.undo", labels.actionUndo, () => { this.undo(); this.closePopover(popover, toggle); }, labels.actionUndo),
+      this.popoverItem("theme.history.redo", labels.actionRedo, () => { this.redo(); this.closePopover(popover, toggle); }, labels.actionRedo),
     ]);
     popover.append(historyGroup);
 
     // Restore group.
     const restoreGroup = buildGroup(labels.groupRestore, [
-      this.popoverItem("reset", labels.actionReset, () => { this.revertAll(); this.closePopover(popover, toggle); }, labels.actionReset),
+      this.popoverItem("theme.file.refresh", labels.actionReset, () => { this.revertAll(); this.closePopover(popover, toggle); }, labels.actionReset),
     ]);
     popover.append(restoreGroup);
 
     const sessionGroup = buildGroup(labels.groupSession, [
-      this.popoverItem("exit", labels.actionExit, () => { void this.requestExit(); this.closePopover(popover, toggle); }, labels.actionExit),
-      this.popoverItem("save", labels.actionSaveExit, () => { void this.requestSaveAndExit(); this.closePopover(popover, toggle); }, labels.actionSaveExit),
+      this.popoverItem("theme.session.exit", labels.actionExit, () => { void this.requestExit(); this.closePopover(popover, toggle); }, labels.actionExit),
+      this.popoverItem("theme.file.save", labels.actionSaveExit, () => { void this.requestSaveAndExit(); this.closePopover(popover, toggle); }, labels.actionSaveExit),
     ]);
     popover.append(sessionGroup);
 
@@ -623,7 +623,7 @@ export class ThemeLabPanel {
     const item = createElement("button", "wkt-popover-item");
     item.type = "button";
     item.setAttribute("role", "menuitem");
-    item.innerHTML = THEME_ICONS[iconName] ?? "";
+    item.innerHTML = themeIcon(iconName);
     const text = createElement("span", "", label);
     item.append(text);
     item.title = title ?? label;
@@ -1003,7 +1003,7 @@ export class ThemeLabPanel {
       imageLabel.title = labels.actionImportReference;
       imageLabel.setAttribute("aria-label", labels.actionImportReference);
       imageLabel.append(imageInput);
-      const clear = this.createSharedIconButton("close", labels.actionClearReference, () => this.clearReferenceImage());
+      const clear = this.createSharedIconButton("theme.reference.clear", labels.actionClearReference, () => this.clearReferenceImage());
       controls.append(imageLabel, clear);
     }
 

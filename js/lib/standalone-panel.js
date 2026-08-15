@@ -7,12 +7,47 @@
 // unregisterStandalonePanel() from the provider's onHostClaimed callback.
 
 import { createPanelUiTemplate as createVendorPanelUiTemplate } from "../vendor/workspacekit-ui/template.js";
+import { workspaceKitIconMaskDataUri } from "../vendor/workspacekit-ui/icons.js";
 import { ThemeRuntimeAdapter } from "./theme_runtime_adapter.js";
 import { ThemeLabPanel } from "./theme_lab_panel.js";
 import { labelsFor, resolveLocale } from "./i18n.js";
-import { THEME_ICONS } from "./theme_icons.js";
+import { themeIcon } from "./theme_icons.js";
 
 const PANEL_ID = "workspacekit-theme-lab";
+const SIDEBAR_ICON_STYLE_ID = "workspacekit-theme-sidebar-icon-style";
+
+function ensureSidebarIconStyle(document) {
+  if (!document || document.getElementById(SIDEBAR_ICON_STYLE_ID)) return;
+  const style = document.createElement("style");
+  style.id = SIDEBAR_ICON_STYLE_ID;
+  style.textContent = `
+    .workspacekit-theme-lab-tab-button .side-bar-button-icon { display:none !important; }
+    .workspacekit-theme-lab-tab-button .sidebar-icon-wrapper { display:grid; place-items:center; min-width:1.25rem; min-height:1.25rem; }
+    .workspacekit-theme-lab-tab-button .sidebar-icon-wrapper::before {
+      content:""; display:block; width:18px; height:18px; background-color:currentColor;
+      -webkit-mask:url("${workspaceKitIconMaskDataUri("theme")}") center / contain no-repeat;
+      mask:url("${workspaceKitIconMaskDataUri("theme")}") center / contain no-repeat;
+    }
+  `;
+  document.head.append(style);
+}
+
+function markSidebarButton(document, { panelId, title, className }) {
+  let attempts = 0;
+  const mark = () => {
+    const button = document.querySelector?.(`[data-tab-id="${panelId}"], [data-sidebar-tab-id="${panelId}"], [data-id="${panelId}"], [id="${panelId}"]`)
+      ?.closest?.("button,[role='tab'],[role='button'],.p-tab,.p-button")
+      || [...(document.querySelectorAll?.("button,[role='tab'],[role='button'],.p-tab,.p-button") || [])]
+        .find((candidate) => candidate?.textContent?.trim() === title || candidate?.getAttribute?.("title") === title);
+    if (button) {
+      button.classList.add(className);
+      return;
+    }
+    attempts += 1;
+    if (attempts < 12) globalThis.setTimeout?.(mark, 80);
+  };
+  mark();
+}
 
 // Reuse a single Template instance per document. The Vendor runtime is
 // side-effect-free on its first use aside from installing the shared stylesheet
@@ -29,6 +64,7 @@ const mountedPanels = new WeakMap();
 
 export function registerStandalonePanel({ app }) {
   if (typeof app?.extensionManager?.registerSidebarTab !== "function") return false;
+  ensureSidebarIconStyle(globalThis.document);
   const labels = labelsFor(resolveLocale({ app }));
   app.extensionManager.registerSidebarTab({
     id: PANEL_ID,
@@ -58,11 +94,11 @@ export function registerStandalonePanel({ app }) {
         // Blueprint in its `content` area avoids a second Theme-specific UI.
         const standaloneShell = typeof ui.createStandaloneShell === "function"
           ? ui.createStandaloneShell({
-            title: `🎨 ${labels.headerTitle}`,
+            title: labels.standaloneTitle,
             settingsLabel: labels.actionSettings,
             settingsContent: (() => {
               const icon = document.createElement("span");
-              icon.innerHTML = THEME_ICONS.settings;
+              icon.innerHTML = themeIcon("theme.settings.open");
               return icon;
             })(),
             onSettings: () => {
@@ -91,6 +127,11 @@ export function registerStandalonePanel({ app }) {
       panel.mount(shell);
       return () => panel.unmount();
     },
+  });
+  markSidebarButton(globalThis.document, {
+    panelId: PANEL_ID,
+    title: labels.standaloneTitle,
+    className: "workspacekit-theme-lab-tab-button",
   });
   return true;
 }

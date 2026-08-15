@@ -39,6 +39,28 @@ export const THEME_ICONS = Object.freeze({
   close: `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="${cap}"><path d="m6 6 12 12M18 6 6 18"/></svg>`,
 });
 
+// Theme-specific actions still use local assets today, but every consumer goes
+// through this semantic layer. This mirrors WorkspaceKit's Icon Kit contract
+// without changing Theme's existing SVG appearance or standalone fallback.
+export const THEME_ICON_SEMANTICS = Object.freeze({
+  "theme.settings.open": "settings",
+  "theme.history.undo": "undo",
+  "theme.history.redo": "redo",
+  "theme.file.import": "import",
+  "theme.file.captureCurrent": "capture",
+  "theme.file.export": "export",
+  "theme.file.save": "save",
+  "theme.file.saveCopy": "save",
+  "theme.file.refresh": "reset",
+  "theme.session.exit": "exit",
+  "theme.actions.more": "more",
+  "theme.reference.clear": "close",
+});
+
+export function themeIcon(name) {
+  return THEME_ICONS[THEME_ICON_SEMANTICS[name] || name] ?? "";
+}
+
 // Build an icon-only button styled like the layout/workspacekit ui kit
 // (`createIconButton` flavour), but pure DOM so the panel can be tested
 // without a Vendor Template.
@@ -46,7 +68,7 @@ export function iconButton(name, title, handler, { primary = false } = {}) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = `wkt-button wkt-button-icon${primary ? " wkt-button-primary" : ""}`.trim();
-  button.innerHTML = THEME_ICONS[name] ?? "";
+  button.innerHTML = themeIcon(name);
   button.title = title;
   button.setAttribute("aria-label", title);
   button.addEventListener("click", handler);

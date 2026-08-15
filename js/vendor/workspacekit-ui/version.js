@@ -14,7 +14,9 @@
 // 1.4.0 adds the dormant shared primitives used by the next Theme migration:
 // disclosure sections, compact action bars, and drop surfaces. Existing
 // family panels keep their current markup until an individual migration batch.
-export const PANEL_UI_TEMPLATE_VERSION = "1.4.0";
+// 1.5.0 adds a local, versioned icon-kit capability. It is intentionally
+// additive: existing panels can keep their own icons until their migration batch.
+export const PANEL_UI_TEMPLATE_VERSION = "1.5.0";
 export const PANEL_UI_TEMPLATE_MAJOR = 1;
 
 export function supportsPanelUiTemplate(requiredMajor) {
