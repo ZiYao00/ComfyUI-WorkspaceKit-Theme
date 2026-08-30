@@ -1,8 +1,10 @@
 # ComfyUI-WorkspaceKit-Theme
 
+> ⚠️ **Archived repository.** Independent development has moved to [ComfyUI-WorkspaceKit](https://github.com/ZiYao00/ComfyUI-WorkspaceKit). This repository is retained as a read-only historical snapshot; use the main WorkspaceKit repository for future updates.
+
 WorkspaceKit Theme Lab is a live theme editor for the WorkspaceKit family of ComfyUI extensions.
 
-It runs inside the real ComfyUI frontend and updates the active runtime rather than drawing a separate mock canvas. The current 0.1.0 alpha supports theme JSON import/export, field-level live preview, undo/redo, reference-image sampling, an eight-color suggested palette, and browser EyeDropper integration when available.
+It runs inside the real ComfyUI frontend and updates the active runtime rather than drawing a separate mock canvas. At archival, the 0.1.0 alpha supported theme JSON import/export, field-level live preview, undo/redo, reference-image sampling, an eight-color suggested palette, and browser EyeDropper integration when available.
 
 ## Status
 

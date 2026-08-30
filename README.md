@@ -1,10 +1,12 @@
 # ComfyUI-WorkspaceKit-Theme
 
+> ⚠️ **本仓库已归档。** 独立开发已迁移至 [ComfyUI-WorkspaceKit](https://github.com/ZiYao00/ComfyUI-WorkspaceKit)。本仓库仅作为只读历史快照保留；后续更新请使用主 WorkspaceKit 仓库。
+
 **WorkspaceKit Theme Lab** 是 WK 家族中的 ComfyUI 实时主题调色插件。
 
 它直接运行在真实 ComfyUI 前端中，不重新绘制或模拟节点画布。导入主题 JSON 后，修改颜色、透明度或数值时，插件会尝试立即更新当前 ComfyUI 运行时并触发画布重绘；只有导出时才会生成新的 JSON 文件。
 
-> 当前版本：**0.1.0 Alpha**。已完成 WK 合并/独立双模式、主题读取、实时预览、参考图精确取色与推荐色板；尚未接入 ComfyUI 私有的“自定义主题持久化 Store”。
+> 归档时的历史版本：**0.1.0 Alpha**。已完成 WK 合并/独立双模式、主题读取、实时预览、参考图精确取色与推荐色板；尚未接入 ComfyUI 私有的“自定义主题持久化 Store”。
 
 ## 核心目标
 
